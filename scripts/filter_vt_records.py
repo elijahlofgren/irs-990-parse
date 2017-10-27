@@ -1,15 +1,15 @@
 import ijson, csv
-with open(r"c:\temp\irs990\output.csv", "w", newline = '') as o:
+with open(r"output.csv", "w") as o:
     dataWriter = csv.writer(o,delimiter=',', quoting=csv.QUOTE_MINIMAL)
     dataWriter.writerow(['NAME','URL'])
-    with open("index.json") as f:
+    with open("../../index_2011.json") as f:
         parser = ijson.parse(f)
         obj = {}
         for prefix, event, value in parser:
-            if prefix == 'AllFilings.item.URL' and len(value)>0:
+            if prefix == 'Filings2011.item.URL' and len(value)>0:
                 obj = {'url':value}
-            if prefix == 'AllFilings.item.OrganizationName':
-                if "VERMONT" in valueor "VT " in value or " VT " in value:
+            if prefix == 'Filings2011.item.OrganizationName':
+                if "VERMONT" in value or "VT " in value or " VT " in value:
                     obj['name'] = value
                     #print(obj)
                     dataWriter.writerow([obj['name'].strip(),obj['url'].replace("\\n","")])
